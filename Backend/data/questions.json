@@ -1,0 +1,136 @@
+{
+    "PHQ9": [
+      {
+        "id": "PHQ9_Q1",
+        "original": "Little interest or pleasure in doing things?",
+        "variants": [
+          { "text": "Since exams started, have you stopped enjoying things you used to love?", "context": ["academic"] },
+          { "text": "Have you been skipping hangouts because nothing feels fun anymore?", "context": ["social"] }
+        ]
+      },
+      {
+        "id": "PHQ9_Q2",
+        "original": "Feeling down, depressed, or hopeless?",
+        "variants": [
+          { "text": "With everything going on, have you been feeling really down or hopeless?", "context": ["general"] },
+          { "text": "With family pressure, have you been feeling emotionally crushed or hopeless?", "context": ["family", "pressure"] }
+        ]
+      },
+      {
+        "id": "PHQ9_Q3",
+        "original": "Trouble falling or staying asleep, or sleeping too much?",
+        "variants": [
+          { "text": "Due to exam stress, are you struggling to sleep or sleeping excessively?", "context": ["academic"] },
+          { "text": "Are worries keeping you awake at night or making you sleep all day?", "context": ["anxiety"] }
+        ]
+      },
+      {
+        "id": "PHQ9_Q4",
+        "original": "Feeling tired or having little energy?",
+        "variants": [
+          { "text": "Even after resting, do you feel exhausted from studies or expectations?", "context": ["academic", "family"] },
+          { "text": "Do you feel drained even without doing much?", "context": ["general"] }
+        ]
+      },
+      {
+        "id": "PHQ9_Q5",
+        "original": "Poor appetite or overeating?",
+        "variants": [
+          { "text": "Has stress caused you to eat much more or much less than usual?", "context": ["stress"] },
+          { "text": "Have your eating habits changed because of how you’re feeling emotionally?", "context": ["general"] }
+        ]
+      },
+      {
+        "id": "PHQ9_Q6",
+        "original": "Feeling bad about yourself or that you are a failure or have let yourself or your family down?",
+        "variants": [
+          { "text": "Do you feel like you’ve disappointed your parents or family?", "context": ["family"] },
+          { "text": "Do you often feel you’re not good enough or a failure?", "context": ["self_worth"] }
+        ]
+      },
+      {
+        "id": "PHQ9_Q7",
+        "original": "Trouble concentrating on things, such as reading the newspaper or watching television?",
+        "variants": [
+          { "text": "Is it difficult to focus while studying or attending classes?", "context": ["academic"] },
+          { "text": "Do your thoughts wander even during simple activities?", "context": ["general"] }
+        ]
+      },
+      {
+        "id": "PHQ9_Q8",
+        "original": "Moving or speaking so slowly that other people could have noticed, or being so restless that you move around a lot more than usual?",
+        "variants": [
+          { "text": "Have you been unusually slow or extremely restless lately?", "context": ["general"] },
+          { "text": "Have people commented that you seem withdrawn or overly restless?", "context": ["social"] }
+        ]
+      },
+      {
+        "id": "PHQ9_Q9",
+        "original": "Thoughts that you would be better off dead, or of hurting yourself?",
+        "variants": [
+          { "text": "Have you had thoughts about not wanting to exist anymore?", "context": ["crisis"] },
+          { "text": "Have you thought about harming yourself or ending your life?", "context": ["crisis"] }
+        ]
+      }
+    ],
+  
+    "GAD7": [
+      {
+        "id": "GAD7_Q1",
+        "original": "Feeling nervous, anxious, or on edge?",
+        "variants": [
+          { "text": "Before exams or deadlines, do you feel constantly on edge?", "context": ["academic"] },
+          { "text": "Around people, do you feel anxious or tense?", "context": ["social"] }
+        ]
+      },
+      {
+        "id": "GAD7_Q2",
+        "original": "Not being able to stop or control worrying?",
+        "variants": [
+          { "text": "Do worries about your future or career feel uncontrollable?", "context": ["career"] },
+          { "text": "Do anxious thoughts keep looping in your mind?", "context": ["general"] }
+        ]
+      },
+      {
+        "id": "GAD7_Q3",
+        "original": "Worrying too much about different things?",
+        "variants": [
+          { "text": "Do you worry excessively about studies, family, and future all at once?", "context": ["academic", "family"] },
+          { "text": "Do small issues quickly turn into big worries?", "context": ["general"] }
+        ]
+      },
+      {
+        "id": "GAD7_Q4",
+        "original": "Trouble relaxing?",
+        "variants": [
+          { "text": "Even when free, do you struggle to fully relax?", "context": ["stress"] },
+          { "text": "Does your body stay tense even when nothing is happening?", "context": ["general"] }
+        ]
+      },
+      {
+        "id": "GAD7_Q5",
+        "original": "Being so restless that it’s hard to sit still?",
+        "variants": [
+          { "text": "During classes or meetings, do you feel unable to sit calmly?", "context": ["academic"] },
+          { "text": "Do you feel physically restless most of the time?", "context": ["general"] }
+        ]
+      },
+      {
+        "id": "GAD7_Q6",
+        "original": "Becoming easily annoyed or irritable?",
+        "variants": [
+          { "text": "Do small things make you irritated or angry quickly?", "context": ["general"] },
+          { "text": "Have friends or family noticed you getting irritated easily?", "context": ["social"] }
+        ]
+      },
+      {
+        "id": "GAD7_Q7",
+        "original": "Feeling afraid as if something awful might happen?",
+        "variants": [
+          { "text": "Do you constantly feel something bad is about to happen?", "context": ["general"] },
+          { "text": "Do thoughts of worst-case scenarios keep coming to your mind?", "context": ["anxiety"] }
+        ]
+      }
+    ]
+  }
+  
