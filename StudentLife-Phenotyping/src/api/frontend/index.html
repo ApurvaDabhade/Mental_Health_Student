@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudentLife Dashboard</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --card: #151b2f;
+      --text: #e7ecff;
+      --muted: #a9b3d9;
+      --ok: #2ecc71;
+      --warn: #f1c40f;
+      --bad: #e74c3c;
+      --accent: #6ea8fe;
+      --line: #2a3357;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg, #0b1020, #0f1630);
+      color: var(--text);
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 { margin: 0 0 6px; font-size: 28px; }
+    p.sub { margin: 0 0 20px; color: var(--muted); }
+    .grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .status-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      display: inline-block;
+    }
+    .ok { background: var(--ok); }
+    .warn { background: var(--warn); }
+    .bad { background: var(--bad); }
+    button, a.btn {
+      border: 1px solid var(--line);
+      background: #1d2748;
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+    button:hover, a.btn:hover { border-color: var(--accent); }
+    textarea {
+      width: 100%;
+      min-height: 130px;
+      background: #0f1530;
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+    }
+    pre {
+      margin: 0;
+      padding: 10px;
+      background: #0f1530;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: auto;
+      max-height: 260px;
+      font-size: 12px;
+    }
+    .links { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>StudentLife Dashboard</h1>
+    <p class="sub">Manage API health, run quick predictions, detect anomalies, and access MLflow.</p>
+
+    <div class="grid">
+      <section class="card">
+        <h3>System Status</h3>
+        <div class="row" id="healthRow">
+          <span class="status-dot warn"></span>
+          <span>Checking API health...</span>
+        </div>
+        <div class="links">
+          <button id="refreshHealth">Refresh Health</button>
+          <a class="btn" href="/docs" target="_blank">Open Swagger</a>
+          <a class="btn" href="http://localhost:5001" target="_blank">Open MLflow</a>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>Predict Activity</h3>
+        <p class="sub">Use payload from examples endpoint, then submit.</p>
+        <textarea id="predictInput"></textarea>
+        <div class="row" style="margin-top:8px;">
+          <button id="loadPredictExample">Load Example</button>
+          <button id="runPredict">Run Predict</button>
+        </div>
+        <pre id="predictOutput">No output yet.</pre>
+      </section>
+
+      <section class="card">
+        <h3>Detect Anomaly</h3>
+        <p class="sub">Paste 11-feature payload and evaluate behavior anomaly.</p>
+        <textarea id="anomalyInput"></textarea>
+        <div class="row" style="margin-top:8px;">
+          <button id="loadAnomalyExample">Load Example</button>
+          <button id="runAnomaly">Run Anomaly</button>
+        </div>
+        <pre id="anomalyOutput">No output yet.</pre>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    function pretty(obj) {
+      return JSON.stringify(obj, null, 2);
+    }
+
+    async function getJson(url) {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`${url} failed: ${res.status}`);
+      return res.json();
+    }
+
+    async function refreshHealth() {
+      const row = $("healthRow");
+      try {
+        const health = await getJson("/health");
+        const dot = health.status === "ok" ? "ok" : "warn";
+        row.innerHTML = `<span class="status-dot ${dot}"></span><span>Status: ${health.status} | Models: ${(health.models_loaded || []).join(", ") || "none"}</span>`;
+      } catch (e) {
+        row.innerHTML = `<span class="status-dot bad"></span><span>${e.message}</span>`;
+      }
+    }
+
+    async function loadExamples() {
+      const ex = await getJson("/examples");
+      $("predictInput").value = pretty(ex.predict_request);
+      $("anomalyInput").value = pretty(ex.anomaly_request_normal);
+    }
+
+    async function runPost(endpoint, inputId, outputId) {
+      const output = $(outputId);
+      try {
+        const body = JSON.parse($(inputId).value);
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body)
+        });
+        const data = await res.json();
+        output.textContent = pretty(data);
+      } catch (e) {
+        output.textContent = `Error: ${e.message}`;
+      }
+    }
+
+    $("refreshHealth").addEventListener("click", refreshHealth);
+    $("loadPredictExample").addEventListener("click", async () => {
+      const ex = await getJson("/examples");
+      $("predictInput").value = pretty(ex.predict_request);
+    });
+    $("runPredict").addEventListener("click", () => runPost("/predict", "predictInput", "predictOutput"));
+    $("loadAnomalyExample").addEventListener("click", async () => {
+      const ex = await getJson("/examples");
+      $("anomalyInput").value = pretty(ex.anomaly_request_normal);
+    });
+    $("runAnomaly").addEventListener("click", () => runPost("/anomaly", "anomalyInput", "anomalyOutput"));
+
+    refreshHealth();
+    loadExamples().catch(() => {});
+  </script>
+</body>
+</html>
