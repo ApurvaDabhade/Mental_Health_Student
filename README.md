@@ -137,8 +137,8 @@ VITE_FIREBASE_APP_ID=your_app_id
 ### 1️⃣ Clone Repository
 
 ```bash
-git clone (https://github.com/dolly-balwani/PKP.git)
-cd <PKP>
+git clone (https://github.com/Mental.git)
+cd <Mental>
 ```
 
 ### 2️⃣ Backend Setup
