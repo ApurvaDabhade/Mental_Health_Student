@@ -1,0 +1,109 @@
+# Learning Plan (keep private)
+plan.md
+MENTOR_STATUS_UPDATE.md
+TASK_TRACKING.md
+
+# Config files (keep private)
+.agents.md
+.rules.md
+.preferences.md
+.commands.md
+WHILE_DOWNLOADING.md
+CURRENT_TASK.md
+# Documentation to ignore
+ISSUES_LOG.md
+ML_ZOOMCAMP_COMPARISON.md
+
+# Legacy requirements (keeping for reference)
+# requirements.txt is now replaced by pyproject.toml + uv.lock
+
+# Data (too large for git)
+/data/
+*.csv
+*.json
+*.tar.bz2
+*.zip
+
+# Models (too large for git)
+models/
+*.pkl
+*.joblib
+*.h5
+*.pt
+*.pth
+*.onnx
+checkpoints/
+
+# MLflow artifacts
+mlruns/
+mlartifacts/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Notebooks (we use script-first approach)
+*.ipynb
+notebooks/
+
+# Environment
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+logs/
+*.log
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+chat.json
+
+
+pipeline_logs.txt
+
+MENTOR_PROJECT_OVERVIEW.md
+
+# CatBoost training artifacts
+catboost_info/
+
+# Temporary documentation artifacts
+CODEBASE_VERIFICATION.md
+CLEANUP_SUMMARY.md
