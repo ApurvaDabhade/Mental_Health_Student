@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Heart, Shield, Users, Brain, CheckCircle, Star, ArrowRight, Menu, X, MessageCircle, Calendar, BookOpen, BarChart3, Sparkles, Activity, Globe, Smile } from 'lucide-react';
 
 export default function Homepage() {
@@ -64,7 +64,7 @@ export default function Homepage() {
                 <Heart className="w-8 h-8 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-[#111827]">Student Wellness</h1>
+                <h1 className="text-2xl font-bold text-[#111827]">Manas Veda</h1>
                 <p className="text-xs" style={{color:'#6B7280'}}>Your mental wellbeing companion</p>
               </div>
             </div>
@@ -75,6 +75,9 @@ export default function Homepage() {
               <a href="#features" className="transition-colors" style={{color:'#767272'}}>Features</a>
               <a href="#how-it-works" className="transition-colors" style={{color:'#767272'}}>How It Works</a>
               <a href="#testimonials" className="transition-colors" style={{color:'#767272'}}>Reviews</a>
+              <Link to="/stress-report" className="transition-colors" style={{color:'#767272'}}>
+                Stress report
+              </Link>
               <button 
                 onClick={() => navigate('/login')}
                 className="text-white px-6 py-2 rounded-full transition-all duration-300 transform hover:scale-105" 
@@ -101,6 +104,9 @@ export default function Homepage() {
                 <a href="#features" className="px-4" style={{color:'#767272'}}>Features</a>
                 <a href="#how-it-works" className="px-4" style={{color:'#767272'}}>How It Works</a>
                 <a href="#testimonials" className="px-4" style={{color:'#767272'}}>Reviews</a>
+                <Link to="/stress-report" className="px-4" style={{color:'#767272'}}>
+                  Stress report
+                </Link>
                 <button 
                   onClick={() => navigate('/login')}
                   className="text-white px-6 py-2 rounded-full mx-4" 
@@ -513,7 +519,7 @@ export default function Homepage() {
       <section className="py-20" style={{background:'#2dc8ca'}}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold text-white mb-6">
-            Ready to Start Your Mental Wellness Journey?
+            Ready to Start Your Journey with Manas Veda?
           </h2>
           <p className="text-xl mb-8" style={{color:'#fbecb3'}}>
             Join a supportive community where mental health support is accessible, anonymous, and stigma-free.
@@ -547,7 +553,7 @@ export default function Homepage() {
                 </div>
                 <div>
                   <h3 className="text-2xl font-bold">Sahay</h3>
-                  <p style={{color:'#c8ced1'}}>Your Mental Wellness Companion</p>
+                  <p style={{color:'#c8ced1'}}>Manas Veda</p>
                 </div>
               </div>
               <p className="mb-6 max-w-md" style={{color:'#c8ced1'}}>

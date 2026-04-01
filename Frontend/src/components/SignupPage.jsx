@@ -6,6 +6,7 @@ import {
   CheckCircle, Shield, Loader2, UserCog
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { saveProfileFromSignup } from '../utils/studentProfileStorage';
 
 export default function UserSignup() {
   const [userType, setUserType] = useState('user'); // 'user' or 'counsellor'
@@ -14,6 +15,8 @@ export default function UserSignup() {
     email: '',
     password: '',
     confirmPassword: '',
+    heightCm: '',
+    weightKg: '',
     acceptTerms: false,
     ageConfirmation: false
   });
@@ -83,6 +86,13 @@ export default function UserSignup() {
       newErrors.acceptTerms = 'You must accept the terms and privacy policy';
     }
 
+    if (!formData.heightCm || Number(formData.heightCm) <= 0) {
+      newErrors.heightCm = 'Please enter your height in cm';
+    }
+    if (!formData.weightKg || Number(formData.weightKg) <= 0) {
+      newErrors.weightKg = 'Please enter your weight in kg';
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -91,6 +101,17 @@ export default function UserSignup() {
     if (validate()) {
       // Auth temporarily disabled – simulate successful signup
       localStorage.setItem('userType', userType);
+      const uid = `dev_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
+      localStorage.setItem('userId', uid);
+      localStorage.setItem('devEmail', formData.email);
+      localStorage.setItem('devDisplayName', formData.fullName);
+      localStorage.removeItem('manasVeda_onboarding_complete');
+      saveProfileFromSignup({
+        fullName: formData.fullName,
+        email: formData.email,
+        heightCm: formData.heightCm,
+        weightKg: formData.weightKg,
+      });
       setIsSubmitted(true);
     }
   };
@@ -99,6 +120,17 @@ export default function UserSignup() {
     // Auth temporarily disabled – treat as normal signup
     if (validate()) {
       localStorage.setItem('userType', userType);
+      const uid = `dev_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
+      localStorage.setItem('userId', uid);
+      localStorage.setItem('devEmail', formData.email);
+      localStorage.setItem('devDisplayName', formData.fullName);
+      localStorage.removeItem('manasVeda_onboarding_complete');
+      saveProfileFromSignup({
+        fullName: formData.fullName,
+        email: formData.email,
+        heightCm: formData.heightCm,
+        weightKg: formData.weightKg,
+      });
       setIsSubmitted(true);
     }
   };
@@ -139,7 +171,7 @@ export default function UserSignup() {
               if (userType === 'counsellor') {
                 navigate('/counsellor-onboarding', { state: { userId: localStorage.getItem('userId') } });
               } else {
-                navigate('/mainpage');
+                window.location.href = '/onboarding';
               }
             }}
             className="bg-[#4F46E5] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#4338CA] transition-all duration-300 w-full"
@@ -263,6 +295,46 @@ export default function UserSignup() {
                 </div>
               )}
               {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
+            </div>
+
+            {/* Body parameters */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-[#111827] mb-2">
+                  Height (cm) *
+                </label>
+                <input
+                  type="number"
+                  min="50"
+                  max="250"
+                  value={formData.heightCm}
+                  onChange={(e) => handleInputChange('heightCm', e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  disabled={isSubmitting}
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent ${errors.heightCm ? 'border-red-500' : ''}`}
+                  style={{ borderColor: errors.heightCm ? '#ef4444' : '#E0E7FF' }}
+                  placeholder="e.g., 170"
+                />
+                {errors.heightCm && <p className="text-red-500 text-sm mt-1">{errors.heightCm}</p>}
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-[#111827] mb-2">
+                  Weight (kg) *
+                </label>
+                <input
+                  type="number"
+                  min="20"
+                  max="250"
+                  value={formData.weightKg}
+                  onChange={(e) => handleInputChange('weightKg', e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  disabled={isSubmitting}
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent ${errors.weightKg ? 'border-red-500' : ''}`}
+                  style={{ borderColor: errors.weightKg ? '#ef4444' : '#E0E7FF' }}
+                  placeholder="e.g., 65"
+                />
+                {errors.weightKg && <p className="text-red-500 text-sm mt-1">{errors.weightKg}</p>}
+              </div>
             </div>
 
             {/* Confirm Password */}

@@ -1,1 +1,182 @@
-@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Main app (Manas Veda): default light page background */
+@layer base {
+  body {
+    @apply antialiased;
+  }
+}
+
+/* StudentLife Phenotyping dashboard — scoped so the rest of the site stays unchanged */
+.sl-phenotyping-scope {
+  --background: 222 47% 6%;
+  --foreground: 210 40% 96%;
+
+  --card: 222 40% 10%;
+  --card-foreground: 210 40% 96%;
+
+  --popover: 222 40% 10%;
+  --popover-foreground: 210 40% 96%;
+
+  --primary: 199 89% 58%;
+  --primary-foreground: 222 47% 6%;
+
+  --secondary: 222 30% 16%;
+  --secondary-foreground: 210 30% 85%;
+
+  --muted: 222 25% 14%;
+  --muted-foreground: 215 20% 55%;
+
+  --accent: 280 70% 65%;
+  --accent-foreground: 210 40% 98%;
+
+  --destructive: 0 80% 60%;
+  --destructive-foreground: 210 40% 98%;
+
+  --border: 222 20% 18%;
+  --input: 222 20% 18%;
+  --ring: 199 89% 58%;
+
+  --radius: 0.75rem;
+
+  --glow-primary: 199 89% 58%;
+  --glow-accent: 280 70% 65%;
+  --success: 160 70% 50%;
+  --warning: 45 95% 60%;
+
+  --sidebar-background: 222 42% 8%;
+  --sidebar-foreground: 240 5.3% 26.1%;
+  --sidebar-primary: 199 89% 58%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 222 30% 16%;
+  --sidebar-accent-foreground: 210 30% 85%;
+  --sidebar-border: 222 20% 18%;
+  --sidebar-ring: 199 89% 58%;
+
+  @apply bg-background text-foreground font-sans;
+}
+
+.sl-phenotyping-scope * {
+  @apply border-border;
+}
+
+.sl-phenotyping-scope h1,
+.sl-phenotyping-scope h2,
+.sl-phenotyping-scope h3,
+.sl-phenotyping-scope h4,
+.sl-phenotyping-scope h5,
+.sl-phenotyping-scope h6 {
+  @apply font-display;
+}
+
+@layer utilities {
+  .sl-phenotyping-scope .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
+  }
+
+  .sl-phenotyping-scope .glow-primary {
+    box-shadow: 0 0 30px -5px hsl(var(--primary) / 0.3);
+  }
+
+  .sl-phenotyping-scope .glow-card {
+    box-shadow:
+      0 0 0 1px hsl(var(--border)),
+      0 8px 40px -12px hsl(var(--primary) / 0.15);
+  }
+
+  .sl-phenotyping-scope .glass {
+    @apply bg-card/60 backdrop-blur-xl border border-border/50;
+  }
+
+  .sl-phenotyping-scope .code-font {
+    font-family: "JetBrains Mono", monospace;
+  }
+}
+
+/* Light variant for embedded phenotyping (matches Manas Veda palette) */
+.sl-phenotyping-scope-light {
+  --background: 210 40% 98%;
+  --foreground: 222 47% 11%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+
+  --primary: 239 75% 62%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 210 20% 96%;
+  --secondary-foreground: 222 47% 11%;
+
+  --muted: 210 15% 94%;
+  --muted-foreground: 215 16% 40%;
+
+  --accent: 180 35% 45%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 72% 55%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 214 20% 88%;
+  --input: 214 20% 88%;
+  --ring: 239 75% 62%;
+
+  --radius: 0.75rem;
+
+  --glow-primary: 239 75% 62%;
+  --glow-accent: 180 35% 45%;
+  --success: 142 60% 45%;
+  --warning: 45 95% 55%;
+
+  --sidebar-background: 0 0% 100%;
+  --sidebar-foreground: 222 47% 11%;
+  --sidebar-primary: 239 75% 62%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 210 20% 96%;
+  --sidebar-accent-foreground: 222 47% 11%;
+  --sidebar-border: 214 20% 88%;
+  --sidebar-ring: 239 75% 62%;
+
+  @apply bg-background text-foreground font-sans;
+}
+
+.sl-phenotyping-scope-light * {
+  @apply border-border;
+}
+
+.sl-phenotyping-scope-light h1,
+.sl-phenotyping-scope-light h2,
+.sl-phenotyping-scope-light h3,
+.sl-phenotyping-scope-light h4,
+.sl-phenotyping-scope-light h5,
+.sl-phenotyping-scope-light h6 {
+  @apply font-display;
+}
+
+.sl-phenotyping-scope-light .gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
+}
+
+.sl-phenotyping-scope-light .glow-primary {
+  box-shadow: 0 0 24px -6px hsl(var(--primary) / 0.25);
+}
+
+.sl-phenotyping-scope-light .glow-card {
+  box-shadow:
+    0 0 0 1px hsl(var(--border)),
+    0 8px 32px -12px hsl(var(--primary) / 0.12);
+}
+
+.sl-phenotyping-scope-light .glass {
+  @apply bg-card/80 backdrop-blur-xl border border-border/60;
+}
+
+.sl-phenotyping-scope-light .code-font {
+  font-family: "JetBrains Mono", monospace;
+}

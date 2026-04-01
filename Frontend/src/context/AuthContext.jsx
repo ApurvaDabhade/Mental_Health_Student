@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
     const storedName =
       localStorage.getItem('devDisplayName') ||
       (storedType === 'counsellor' ? 'Demo Counsellor' : 'Demo Student');
-    const storedEmail = localStorage.getItem('devEmail') || 'demo@sahaay.local';
+    const storedEmail = localStorage.getItem('devEmail') || 'demo@manasveda.local';
 
     localStorage.setItem('userType', storedType);
     localStorage.setItem('userId', storedId);
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }) => {
   // Sign up new user
   const signup = async (email, password, fullName, type = 'user') => {
     if (AUTH_DISABLED) {
-      localStorage.setItem('devEmail', email || 'demo@sahaay.local');
+      localStorage.setItem('devEmail', email || 'demo@manasveda.local');
       localStorage.setItem('devDisplayName', fullName || 'Demo User');
       const devUser = ensureDevUser(type);
       return { user: devUser };
@@ -78,7 +78,7 @@ export const AuthProvider = ({ children }) => {
   // Sign in existing user
   const login = async (email, password) => {
     if (AUTH_DISABLED) {
-      localStorage.setItem('devEmail', email || 'demo@sahaay.local');
+      localStorage.setItem('devEmail', email || 'demo@manasveda.local');
       const devUser = ensureDevUser(localStorage.getItem('userType') || 'user');
       return { user: devUser };
     }

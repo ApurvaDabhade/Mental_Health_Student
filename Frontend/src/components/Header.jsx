@@ -9,7 +9,7 @@ export default function Header() {
           <Heart className="w-6 h-6 text-white" />
         </div>
         <div className="text-left">
-          <h1 className="text-2xl font-bold text-[#111827]">Student Wellness Hub</h1>
+          <h1 className="text-2xl font-bold text-[#111827]">Manas Veda</h1>
           <p className="text-[#6B7280] text-sm">Your calm mental wellness companion</p>
         </div>
         <div className="flex items-center space-x-2 text-xs text-[#6B7280]">

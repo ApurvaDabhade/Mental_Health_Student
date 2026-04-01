@@ -9,7 +9,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       <div className="absolute inset-0 bg-black/50" />
       <div className="absolute left-0 top-0 bottom-0 w-72 bg-white" onClick={e => e.stopPropagation()}>
         <div className="p-4">
-          <h2 className="text-xl font-bold text-[#111827]">Wellness Hub</h2>
+          <h2 className="text-xl font-bold text-[#111827]">Manas Veda</h2>
         </div>
       </div>
     </div>

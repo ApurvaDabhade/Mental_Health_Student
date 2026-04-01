@@ -28,7 +28,7 @@ const WellnessChat = () => {
     messages,
     isTyping,
     distressLevel,
-    sessionId,
+    sessionReady,
     error,
     sendMessage,
     addSystemMessage,
@@ -50,7 +50,7 @@ const WellnessChat = () => {
   const handleSendMessage = async (e) => {
     e.preventDefault();
 
-    if (!input.trim() || !sessionId) return;
+    if (!input.trim()) return;
 
     // Check for crisis keywords
     if (checkForCrisisKeywords(input)) {
@@ -101,7 +101,7 @@ const WellnessChat = () => {
             <Heart className="w-6 h-6" />
           </div>
           <div>
-            <h1 className="text-xl font-semibold">Wellness Chat</h1>
+            <h1 className="text-xl font-semibold">Manas Veda</h1>
             <p className="text-sm opacity-80">Your emotional wellbeing companion</p>
           </div>
           <div className="ml-auto flex items-center space-x-2">
@@ -114,6 +114,11 @@ const WellnessChat = () => {
 
       {/* Chat Container */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        {!sessionReady && (
+          <div className="flex items-center justify-center py-12 text-gray-500 text-sm">
+            Connecting to Manas Veda…
+          </div>
+        )}
         {messages.map((message) => (
           <div
             key={message.id}
@@ -172,11 +177,11 @@ const WellnessChat = () => {
             onChange={(e) => setInput(e.target.value)}
             placeholder="Type your message..."
             className="flex-1 bg-transparent border-none outline-none text-gray-800 placeholder-gray-400"
-            disabled={isTyping}
+            disabled={isTyping || !sessionReady}
           />
           <button
             type="submit"
-            disabled={!input.trim() || isTyping}
+            disabled={!input.trim() || isTyping || !sessionReady}
             className="ml-2 p-2 rounded-full bg-teal-500 text-white hover:bg-teal-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             <Send className="w-5 h-5" />

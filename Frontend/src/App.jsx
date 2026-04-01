@@ -17,6 +17,8 @@ import AssessmentFlow from "./components/AssessmentFlow";
 import PeerSupport from "./components/PeerSupport";
 import HomePage from "./components/HomePage";
 import MHFATrainingLab from "./components/MHFATrainingLab";
+import StudentStressReportDashboard from "./components/StudentStressReportDashboard";
+import OnboardingFlow from "./components/OnboardingFlow";
 
 function App() {
   return (
@@ -105,6 +107,22 @@ function App() {
         element={
           <ProtectedRoute requiredUserType="user">
             <MHFATrainingLab />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/stress-report"
+        element={
+          <ProtectedRoute requiredUserType="user">
+            <StudentStressReportDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/onboarding"
+        element={
+          <ProtectedRoute requiredUserType="user">
+            <OnboardingFlow />
           </ProtectedRoute>
         }
       />

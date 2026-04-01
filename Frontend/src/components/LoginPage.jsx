@@ -23,8 +23,14 @@ export default function LoginPage() {
 
     // Auth temporarily disabled – accept any credentials
     localStorage.setItem('userType', userType);
+    localStorage.setItem('devEmail', email);
+    if (!localStorage.getItem('userId')) {
+      localStorage.setItem('userId', `dev_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 9)}`);
+    }
     if (userType === 'counsellor') {
       navigate('/counsellor');
+    } else if (localStorage.getItem('manasVeda_onboarding_complete') !== 'true') {
+      navigate('/onboarding');
     } else {
       navigate('/mainpage');
     }
@@ -36,8 +42,14 @@ export default function LoginPage() {
     setLoading(true);
     // Auth temporarily disabled – treat Google button same as normal login
     localStorage.setItem('userType', userType);
+    localStorage.setItem('devEmail', email);
+    if (!localStorage.getItem('userId')) {
+      localStorage.setItem('userId', `dev_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 9)}`);
+    }
     if (userType === 'counsellor') {
       navigate('/counsellor');
+    } else if (localStorage.getItem('manasVeda_onboarding_complete') !== 'true') {
+      navigate('/onboarding');
     } else {
       navigate('/mainpage');
     }
@@ -77,7 +89,7 @@ export default function LoginPage() {
             <Heart className="w-8 h-8 text-white" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold text-[#111827]">Student Wellness</h1>
+            <h1 className="text-3xl font-bold text-[#111827]">Manas Veda</h1>
             <p className="text-[#6B7280]">Your mental wellbeing companion</p>
           </div>
         </div>

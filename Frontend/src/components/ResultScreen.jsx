@@ -33,20 +33,32 @@ export default function ResultScreen({ result, onRestart }) {
     }
   };
   const getSeverityColor = (severity) => {
-    switch (severity.toLowerCase()) {
+    switch (String(severity).toLowerCase()) {
       case 'minimal':
-        return '#2dc8ca';
+      case 'low':
+      case 'good':
+      case 'manageable':
+      case 'connected':
+      case 'healthy':
+        return '#4caf50';
       case 'mild':
-        return '#52c97a';
+        return '#4ca6af';
       case 'moderate':
-        return '#eac163';
+      case 'fair':
+      case 'mixed':
+      case 'elevated':
+        return '#f4b942';
       case 'moderately_severe':
       case 'moderately severe':
         return '#f99c5b';
       case 'severe':
-        return '#f38788';
+      case 'high':
+      case 'poor':
+      case 'isolated':
+      case 'needs_attention':
+        return '#ff6b6b';
       default:
-        return '#3d9098';
+        return '#5b5ce6';
     }
   };
 
@@ -121,8 +133,11 @@ export default function ResultScreen({ result, onRestart }) {
           </div>
           
           <p className="text-[#767272] max-w-md mx-auto">
-            {getSeverityMessage(result.severity)}
+            {result.message || getSeverityMessage(result.severity)}
           </p>
+          {result.moduleLabel && (
+            <p className="text-sm text-[#9ca3af] mt-2">{result.moduleLabel}</p>
+          )}
         </div>
       </div>
 
@@ -160,11 +175,20 @@ export default function ResultScreen({ result, onRestart }) {
             <span>Back to Dashboard</span>
           </button>
           
-          <button className="px-6 py-3 bg-[#3d9098] text-white rounded-xl font-semibold hover:opacity-90 flex items-center justify-center space-x-2">
-            <Share2 className="w-4 h-4" />
-            <span>Share Result</span>
+          <button
+            type="button"
+            onClick={() => navigate('/stress-report')}
+            className="px-6 py-3 bg-[#6366F1] text-white rounded-xl font-semibold hover:bg-[#4F46E5] flex items-center justify-center space-x-2"
+          >
+            <TrendingUp className="w-4 h-4" />
+            <span>Stress report dashboard</span>
           </button>
         </div>
+
+        <button className="w-full px-6 py-3 border border-[#c8ced1] text-[#2e2f34] rounded-xl font-semibold hover:bg-[#f2f7eb] flex items-center justify-center space-x-2">
+          <Share2 className="w-4 h-4" />
+          <span>Share Result</span>
+        </button>
       </div>
 
       {/* Privacy Notice */}

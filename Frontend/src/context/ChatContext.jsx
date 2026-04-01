@@ -11,7 +11,7 @@ export const ChatProvider = ({ children }) => {
   const [messages, setMessages] = useState([
     {
       id: 1,
-      text: "Namaste! I'm your emotional wellbeing companion. I'm here to listen and support you. How are you feeling today? 🌿",
+      text: "Namaste! I'm Manas Veda, your emotional wellbeing companion. I'm here to listen and support you. How are you feeling today? 🌿",
       sender: 'bot',
       timestamp: new Date()
     }
@@ -122,7 +122,7 @@ export const ChatProvider = ({ children }) => {
   const clearChat = () => {
     setMessages([{
       id: 1,
-      text: "Namaste! I'm your emotional wellbeing companion. I'm here to listen and support you. How are you feeling today? 🌿",
+      text: "Namaste! I'm Manas Veda, your emotional wellbeing companion. I'm here to listen and support you. How are you feeling today? 🌿",
       sender: 'bot',
       timestamp: new Date()
     }]);

@@ -61,7 +61,7 @@ const CounselorDashboard = () => {
 
         const draft = JSON.parse(draftRaw);
         const displayName = localStorage.getItem('devDisplayName') || 'Demo Counsellor';
-        const email = localStorage.getItem('devEmail') || 'demo@sahaay.local';
+        const email = localStorage.getItem('devEmail') || 'demo@manasveda.local';
 
         const slotsObj = {};
         const startStr = draft.availability?.slots?.[0]?.startTime || '09:00';

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { 
   Heart, 
   Play, 
@@ -24,11 +25,31 @@ import {
 import Sidebar from './Sidebar';
 
 const PsychoeducationalHub = () => {
+  const [searchParams] = useSearchParams();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedLanguage, setSelectedLanguage] = useState('all');
   const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const q =
+      searchParams.get('q') ||
+      searchParams.get('topic') ||
+      searchParams.get('article') ||
+      '';
+    if (q) {
+      setSearchQuery(q);
+    }
+    const lang = searchParams.get('lang');
+    if (lang && ['english', 'hindi', 'tamil', 'telugu', 'bengali', 'marathi', 'gujarati'].includes(lang)) {
+      setSelectedLanguage(lang);
+    }
+    const cat = searchParams.get('category');
+    if (cat && ['all', 'videos', 'audio', 'guides'].includes(cat)) {
+      setSelectedCategory(cat);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);

@@ -159,7 +159,7 @@ const ChatBot = () => {
             <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 rounded-lg hover:bg-gray-100">
               <Menu className="w-5 h-5 text-gray-600" />
             </button>
-            <h1 className="text-xl font-semibold text-gray-800">Wellness Chat – Your Mental Health Companion</h1>
+            <h1 className="text-xl font-semibold text-gray-800">Manas Veda · Your Mental Health Companion</h1>
           </div>
 
           <div className="flex items-center space-x-2">

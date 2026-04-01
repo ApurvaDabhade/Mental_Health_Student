@@ -121,7 +121,7 @@ export default function MHFATrainingLab() {
         <h3 className="text-lg font-semibold text-[#2e2f34] mb-4">Your Training Journey</h3>
         <ol className="space-y-3 text-sm text-[#2e2f34] list-decimal list-inside">
           <li><strong>Watch the short modules</strong> on listening, language and emotional first aid.</li>
-          <li><strong>Practice role-play</strong> with Sahaay on real-life community scenarios.</li>
+          <li><strong>Practice role-play</strong> with Manas Veda on real-life community scenarios.</li>
           <li><strong>Take the Red-Flag Quiz</strong> to check your understanding of crisis signals.</li>
           <li><strong>Unlock your certificate</strong> as a <em>Certified Emotional First Responder – MHFA Basic</em>.</li>
         </ol>
@@ -222,11 +222,11 @@ export default function MHFATrainingLab() {
       <div className="bg-white border rounded-xl p-6" style={{ borderColor: '#c8ced1' }}>
         <div className="flex items-center space-x-3 mb-3">
           <MessageCircle className="w-6 h-6 text-[#3d9098]" />
-          <h2 className="text-xl font-bold text-[#2e2f34]">Role-Play Simulator with Sahaay</h2>
+          <h2 className="text-xl font-bold text-[#2e2f34]">Role-Play Simulator with Manas Veda</h2>
         </div>
         <p className="text-sm text-[#767272]">
-          Practice real-life conversations with the Sahaay chatbot. You&apos;ll act as a teacher / worker, and 
-          Sahaay will simulate a student, parent, community member or colleague in distress.
+          Practice real-life conversations with the Manas Veda assistant. You&apos;ll act as a teacher / worker, and 
+          Manas Veda will simulate a student, parent, community member or colleague in distress.
         </p>
       </div>
 
@@ -291,7 +291,7 @@ export default function MHFATrainingLab() {
               <Bot className="w-4 h-4 text-[#3d9098]" />
             </div>
             <div className="bg-white border rounded-xl p-3 max-w-xl" style={{ borderColor: '#c8ced1' }}>
-              <p className="text-xs text-[#767272] mb-1">Sahaay (Student)</p>
+              <p className="text-xs text-[#767272] mb-1">Manas Veda (Student)</p>
               <p className="text-sm text-[#2e2f34]">
                 Mujhe lagta hai agar main fail ho gaya toh sab meri wajah se disappointed ho jaayenge.
                 Kabhi kabhi lagta hai ki main hi problem hoon...
@@ -300,7 +300,7 @@ export default function MHFATrainingLab() {
           </div>
         </div>
         <p className="text-xs text-[#767272] mt-4">
-          In the real simulator, Sahaay will rate your responses, highlight safer phrases and suggest alternatives.
+          In the real simulator, Manas Veda will rate your responses, highlight safer phrases and suggest alternatives.
         </p>
       </div>
     </div>
