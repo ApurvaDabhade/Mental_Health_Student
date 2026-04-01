@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogIn, User, UserCog, Mail, Lock, Heart, ArrowRight, Loader2 } from 'lucide-react';
+import { LogIn, User, UserCog, Mail, Lock, Heart, ArrowRight, Loader2, Building2 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 export default function LoginPage() {
-  const [userType, setUserType] = useState('user'); // 'user' or 'counsellor'
+  const [userType, setUserType] = useState('user'); // 'user' | 'counsellor' | 'institute'
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleLogin = async (e) => {   
     e.preventDefault();
@@ -27,8 +29,19 @@ export default function LoginPage() {
     if (!localStorage.getItem('userId')) {
       localStorage.setItem('userId', `dev_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 9)}`);
     }
+    const emailLocal = email.split('@')[0]?.replace(/[._-]+/g, ' ').trim();
+    if (emailLocal) {
+      localStorage.setItem('devDisplayName', emailLocal.charAt(0).toUpperCase() + emailLocal.slice(1));
+    }
+    try {
+      await login(email, password);
+    } catch {
+      /* dev auth always succeeds when AUTH_DISABLED */
+    }
     if (userType === 'counsellor') {
       navigate('/counsellor');
+    } else if (userType === 'institute') {
+      navigate('/institute');
     } else if (localStorage.getItem('manasVeda_onboarding_complete') !== 'true') {
       navigate('/onboarding');
     } else {
@@ -46,8 +59,19 @@ export default function LoginPage() {
     if (!localStorage.getItem('userId')) {
       localStorage.setItem('userId', `dev_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 9)}`);
     }
+    const gEmailLocal = email.split('@')[0]?.replace(/[._-]+/g, ' ').trim();
+    if (gEmailLocal) {
+      localStorage.setItem('devDisplayName', gEmailLocal.charAt(0).toUpperCase() + gEmailLocal.slice(1));
+    }
+    try {
+      await login(email || 'demo@manasveda.local', 'dev');
+    } catch {
+      /* dev auth */
+    }
     if (userType === 'counsellor') {
       navigate('/counsellor');
+    } else if (userType === 'institute') {
+      navigate('/institute');
     } else if (localStorage.getItem('manasVeda_onboarding_complete') !== 'true') {
       navigate('/onboarding');
     } else {
@@ -57,26 +81,36 @@ export default function LoginPage() {
   };
 
   const UserTypeToggle = () => (
-    <div className="bg-[#EEF2FF] p-1 rounded-full flex w-full max-w-sm mx-auto mb-8">
+    <div className="bg-[#EEF2FF] p-1 rounded-2xl grid grid-cols-3 gap-1 w-full max-w-lg mx-auto mb-8">
       <button
         type="button"
         onClick={() => setUserType('user')}
         disabled={loading}
-        className={`w-1/2 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 flex items-center justify-center space-x-2 ${userType === 'user' ? 'bg-white text-[#111827] shadow-md' : 'text-[#6B7280]'
+        className={`py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 ${userType === 'user' ? 'bg-white text-[#111827] shadow-md' : 'text-[#6B7280]'
           } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
       >
-        <User className="w-4 h-4" />
-        <span>User</span>
+        <User className="w-4 h-4 shrink-0" />
+        <span>Student</span>
       </button>
       <button
         type="button"
         onClick={() => setUserType('counsellor')}
         disabled={loading}
-        className={`w-1/2 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 flex items-center justify-center space-x-2 ${userType === 'counsellor' ? 'bg-white text-[#111827] shadow-md' : 'text-[#6B7280]'
+        className={`py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 ${userType === 'counsellor' ? 'bg-white text-[#111827] shadow-md' : 'text-[#6B7280]'
           } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
       >
-        <UserCog className="w-4 h-4" />
+        <UserCog className="w-4 h-4 shrink-0" />
         <span>Counsellor</span>
+      </button>
+      <button
+        type="button"
+        onClick={() => setUserType('institute')}
+        disabled={loading}
+        className={`py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 ${userType === 'institute' ? 'bg-white text-[#111827] shadow-md' : 'text-[#6B7280]'
+          } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+      >
+        <Building2 className="w-4 h-4 shrink-0" />
+        <span>Institute</span>
       </button>
     </div>
   );
@@ -90,7 +124,7 @@ export default function LoginPage() {
           </div>
           <div>
             <h1 className="text-3xl font-bold text-[#111827]">Manas Veda</h1>
-            <p className="text-[#6B7280]">Your mental wellbeing companion</p>
+            <p className="text-[#6B7280]">Wellbeing</p>
           </div>
         </div>
 
@@ -100,14 +134,14 @@ export default function LoginPage() {
           <div className="text-center mb-6">
             <h2 className="text-2xl font-bold text-[#111827]">Welcome back</h2>
             <p className="text-[#6B7280]">
-              Please sign in to your {userType === 'user' ? 'user' : 'counsellor'} account.
+              {userType === 'user' ? 'Student' : userType === 'counsellor' ? 'Counsellor' : 'Institute'} sign-in
             </p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-[#111827] mb-2">
-                {userType === 'user' ? 'Email Address' : 'Professional Email'}
+                {userType === 'user' ? 'Email Address' : userType === 'counsellor' ? 'Professional Email' : 'Institute email'}
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#8d949d]" />
@@ -116,7 +150,13 @@ export default function LoginPage() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder={userType === 'user' ? 'your.email@example.com' : 'counsellor@clinic.com'}
+                  placeholder={
+                    userType === 'user'
+                      ? 'your.email@example.com'
+                      : userType === 'counsellor'
+                        ? 'counsellor@clinic.com'
+                        : 'wellbeing@yourcollege.edu'
+                  }
                   className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#6366F1] focus:border-transparent"
                   style={{ borderColor: '#E0E7FF' }}
                   required
@@ -220,11 +260,25 @@ export default function LoginPage() {
           </form>
 
           <p className="mt-8 text-center text-sm text-[#6B7280]">
-            {userType === 'user' ? "Don't have an account?" : "Haven't registered as a counsellor?"}{' '}
-            <a href={userType === 'user' ? '/register-user' : '/register-counsellor'} className="font-medium text-[#6366F1] hover:underline">
-              Register here
-              <ArrowRight className="inline ml-1 w-4 h-4" />
-            </a>
+            {userType === 'institute' ? (
+              <>Institute access is managed by your admin.</>
+            ) : userType === 'user' ? (
+              <>
+                Don&apos;t have an account?{' '}
+                <a href="/register-user" className="font-medium text-[#6366F1] hover:underline">
+                  Register here
+                  <ArrowRight className="inline ml-1 w-4 h-4" />
+                </a>
+              </>
+            ) : (
+              <>
+                Haven&apos;t registered as a counsellor?{' '}
+                <a href="/register-counsellor" className="font-medium text-[#6366F1] hover:underline">
+                  Register here
+                  <ArrowRight className="inline ml-1 w-4 h-4" />
+                </a>
+              </>
+            )}
           </p>
         </div>
       </div>

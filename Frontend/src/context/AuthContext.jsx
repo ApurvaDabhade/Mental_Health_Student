@@ -33,7 +33,11 @@ export const AuthProvider = ({ children }) => {
     const storedId = localStorage.getItem('userId') || `dev_${Math.random().toString(36).slice(2, 10)}`;
     const storedName =
       localStorage.getItem('devDisplayName') ||
-      (storedType === 'counsellor' ? 'Demo Counsellor' : 'Demo Student');
+      (storedType === 'counsellor'
+        ? 'Counsellor'
+        : storedType === 'institute'
+          ? 'Institute'
+          : 'Student');
     const storedEmail = localStorage.getItem('devEmail') || 'demo@manasveda.local';
 
     localStorage.setItem('userType', storedType);
@@ -51,7 +55,7 @@ export const AuthProvider = ({ children }) => {
   const signup = async (email, password, fullName, type = 'user') => {
     if (AUTH_DISABLED) {
       localStorage.setItem('devEmail', email || 'demo@manasveda.local');
-      localStorage.setItem('devDisplayName', fullName || 'Demo User');
+      localStorage.setItem('devDisplayName', fullName || 'Student');
       const devUser = ensureDevUser(type);
       return { user: devUser };
     }
@@ -125,6 +129,8 @@ export const AuthProvider = ({ children }) => {
     if (AUTH_DISABLED) {
       localStorage.removeItem('userType');
       localStorage.removeItem('userId');
+      localStorage.removeItem('devDisplayName');
+      localStorage.removeItem('devEmail');
       setUserType(null);
       setCurrentUser(null);
       return;

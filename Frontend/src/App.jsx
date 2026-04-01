@@ -19,6 +19,7 @@ import HomePage from "./components/HomePage";
 import MHFATrainingLab from "./components/MHFATrainingLab";
 import StudentStressReportDashboard from "./components/StudentStressReportDashboard";
 import OnboardingFlow from "./components/OnboardingFlow";
+import InstituteDashboard from "./components/InstituteDashboard";
 
 function App() {
   return (
@@ -123,6 +124,15 @@ function App() {
         element={
           <ProtectedRoute requiredUserType="user">
             <OnboardingFlow />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/institute"
+        element={
+          <ProtectedRoute requiredUserType="institute">
+            <InstituteDashboard />
           </ProtectedRoute>
         }
       />

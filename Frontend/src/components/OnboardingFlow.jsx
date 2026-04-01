@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { saveWellnessProfile } from "../api/wellnessApi";
 import Sidebar from "./Sidebar";
-import { Menu, ArrowRight, CheckCircle } from "lucide-react";
+import { Menu, ArrowRight, CheckCircle, Sparkles } from "lucide-react";
 
 const BG = "#eef5f7";
 const CARD = "#ffffff";
@@ -13,7 +13,7 @@ const TEXT = "#1f2937";
 const MUTED = "#6b7280";
 
 const inputCls =
-  "w-full px-3 py-2 rounded-xl border text-sm outline-none focus:ring-2 focus:ring-[#5b5ce6]/30";
+  "w-full px-3 py-3 rounded-xl border text-base outline-none focus:ring-2 focus:ring-[#5b5ce6]/30";
 
 export default function OnboardingFlow() {
   const { currentUser } = useAuth();
@@ -42,21 +42,6 @@ export default function OnboardingFlow() {
     outdoorActivityMins: "",
     socialMediaHours: "",
     nightDeviceUsage: "",
-    moodRating: "5",
-    stressLevel: "5",
-    anxietyLevel: "5",
-    burnoutLevel: "5",
-    socialInteractionLevel: "5",
-    sleepQuality: "5",
-    motivationLevel: "5",
-    academicPressureLevel: "5",
-    phoneUnlocksPerDay: "",
-    nightPhoneUsage: "",
-    walkingSteps: "",
-    outdoorActivityTime: "",
-    timeSpentAloneHours: "",
-    socialMediaUsage: "",
-    studyProductivityScore: "5",
   });
 
   const set = (k, v) => setForm((p) => ({ ...p, [k]: v }));
@@ -111,21 +96,6 @@ export default function OnboardingFlow() {
       outdoorActivityMins: toNum(form.outdoorActivityMins),
       socialMediaHours: toNum(form.socialMediaHours),
       nightDeviceUsage: form.nightDeviceUsage,
-      moodRating: toNum(form.moodRating),
-      stressLevel: toNum(form.stressLevel),
-      anxietyLevel: toNum(form.anxietyLevel),
-      burnoutLevel: toNum(form.burnoutLevel),
-      socialInteractionLevel: toNum(form.socialInteractionLevel),
-      sleepQuality: toNum(form.sleepQuality),
-      motivationLevel: toNum(form.motivationLevel),
-      academicPressureLevel: toNum(form.academicPressureLevel),
-      phoneUnlocksPerDay: toNum(form.phoneUnlocksPerDay),
-      nightPhoneUsage: form.nightPhoneUsage,
-      walkingSteps: toNum(form.walkingSteps),
-      outdoorActivityTime: toNum(form.outdoorActivityTime),
-      timeSpentAloneHours: toNum(form.timeSpentAloneHours),
-      socialMediaUsage: toNum(form.socialMediaUsage),
-      studyProductivityScore: toNum(form.studyProductivityScore),
       onboardingComplete: true,
     };
     try {
@@ -142,7 +112,7 @@ export default function OnboardingFlow() {
 
   const field = (label, key, type = "text", ph = "") => (
     <label className="block mb-3">
-      <span className="text-xs font-medium" style={{ color: MUTED }}>
+      <span className="text-sm font-semibold" style={{ color: MUTED }}>
         {label}
       </span>
       <input
@@ -171,13 +141,13 @@ export default function OnboardingFlow() {
 
       <div className="max-w-3xl mx-auto px-4 py-8">
         <div className="mb-6">
-          <p className="text-sm font-semibold" style={{ color: PRIMARY }}>
+          <p className="text-base font-semibold" style={{ color: PRIMARY }}>
             Step {step} of 3
           </p>
-          <h1 className="text-2xl font-bold mt-1" style={{ color: TEXT }}>
+          <h1 className="text-3xl font-bold mt-1" style={{ color: TEXT }}>
             Welcome to Manas Veda
           </h1>
-          <p className="text-sm mt-1" style={{ color: MUTED }}>
+          <p className="text-base mt-1" style={{ color: MUTED }}>
             We use this information to personalize your stress report and dashboard. You can update it later.
           </p>
         </div>
@@ -188,7 +158,7 @@ export default function OnboardingFlow() {
         >
           {step === 1 && (
             <>
-              <h2 className="text-lg font-semibold mb-4" style={{ color: TEXT }}>
+              <h2 className="text-2xl font-semibold mb-4" style={{ color: TEXT }}>
                 Personal details
               </h2>
               <div className="grid sm:grid-cols-2 gap-2">
@@ -208,7 +178,7 @@ export default function OnboardingFlow() {
 
           {step === 2 && (
             <>
-              <h2 className="text-lg font-semibold mb-4" style={{ color: TEXT }}>
+              <h2 className="text-2xl font-semibold mb-4" style={{ color: TEXT }}>
                 Lifestyle
               </h2>
               <div className="grid sm:grid-cols-2 gap-2">
@@ -227,55 +197,24 @@ export default function OnboardingFlow() {
 
           {step === 3 && (
             <>
-              <h2 className="text-lg font-semibold mb-4" style={{ color: TEXT }}>
-                Mental wellness & behavior (1–10 scales)
+              <h2 className="text-2xl font-semibold mb-3" style={{ color: TEXT }}>
+                Finalize profile
               </h2>
-              <p className="text-xs mb-4" style={{ color: MUTED }}>
-                1 = low / very little · 10 = high / very much
+              <p className="text-base mb-5" style={{ color: MUTED }}>
+                Great — your basic profile is ready. Mental-health prediction will now be generated from your Self Assessment responses plus behavioral mock signals.
               </p>
-              <div className="grid sm:grid-cols-2 gap-2">
-                {["moodRating", "stressLevel", "anxietyLevel", "burnoutLevel", "socialInteractionLevel", "sleepQuality", "motivationLevel", "academicPressureLevel"].map((k) => (
-                  <label key={k} className="block mb-3">
-                    <span className="text-xs font-medium capitalize" style={{ color: MUTED }}>
-                      {k.replace(/([A-Z])/g, " $1").trim()}
-                    </span>
-                    <input
-                      type="range"
-                      min={1}
-                      max={10}
-                      className="w-full accent-[#5b5ce6]"
-                      value={form[k]}
-                      onChange={(e) => set(k, e.target.value)}
-                    />
-                    <div className="text-xs text-right" style={{ color: TEXT }}>
-                      {form[k]}
-                    </div>
-                  </label>
-                ))}
-              </div>
-              <h3 className="text-sm font-semibold mt-6 mb-2" style={{ color: TEXT }}>
-                Behavioral (approximate)
-              </h3>
-              <div className="grid sm:grid-cols-2 gap-2">
-                {field("Phone unlocks / day", "phoneUnlocksPerDay", "number")}
-                {field("Night phone usage", "nightPhoneUsage")}
-                {field("Walking steps", "walkingSteps", "number")}
-                {field("Outdoor time (mins/day)", "outdoorActivityTime", "number")}
-                {field("Time alone (hours/day)", "timeSpentAloneHours", "number")}
-                {field("Social media usage (hrs)", "socialMediaUsage", "number")}
-                <label className="block mb-3 sm:col-span-2">
-                  <span className="text-xs font-medium" style={{ color: MUTED }}>
-                    Study productivity (1–10)
-                  </span>
-                  <input
-                    type="range"
-                    min={1}
-                    max={10}
-                    className="w-full accent-[#5b5ce6]"
-                    value={form.studyProductivityScore}
-                    onChange={(e) => set("studyProductivityScore", e.target.value)}
-                  />
-                </label>
+              <div className="rounded-xl border p-4 bg-[#f8faff]" style={{ borderColor: BORDER }}>
+                <div className="flex items-center gap-2 mb-3">
+                  <Sparkles className="w-5 h-5 text-[#5b5ce6]" />
+                  <p className="text-base font-semibold" style={{ color: TEXT }}>
+                    What happens next
+                  </p>
+                </div>
+                <ul className="text-sm space-y-2" style={{ color: MUTED }}>
+                  <li>- Complete Self Assessment modules (PHQ-9, GAD-7, PSS, Burnout, Sleep, etc.).</li>
+                  <li>- Model combines your scores + lifestyle data to infer risk and trend.</li>
+                  <li>- Stress & Wellness Report updates graphs and recommendations dynamically.</li>
+                </ul>
               </div>
             </>
           )}
@@ -296,7 +235,7 @@ export default function OnboardingFlow() {
             {step < 3 ? (
               <button
                 type="button"
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-white text-sm font-semibold"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white text-base font-semibold"
                 style={{ background: PRIMARY }}
                 onClick={() => setStep((s) => s + 1)}
               >
@@ -307,7 +246,7 @@ export default function OnboardingFlow() {
               <button
                 type="button"
                 disabled={saving}
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-white text-sm font-semibold disabled:opacity-60"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white text-base font-semibold disabled:opacity-60"
                 style={{ background: "#4ca6af" }}
                 onClick={handleFinish}
               >

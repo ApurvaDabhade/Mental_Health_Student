@@ -187,7 +187,10 @@ const DailyCheckIn = () => {
     try {
       window.localStorage.setItem('sahayDailyCheckins', JSON.stringify(newHistory));
     } catch {}
-    
+    try {
+      window.dispatchEvent(new CustomEvent('sahayDailyCheckinsUpdated'));
+    } catch {}
+
     // Reset form
     setCurrentStep(0);
     setResponses({

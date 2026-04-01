@@ -16,24 +16,30 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
+const studentMenuItems = [
+  { id: 'dashboard', icon: BarChart3, label: 'Dashboard', color: 'bg-[#4F46E5]', path: '/mainpage' },
+  { id: 'assessment', icon: Heart, label: 'Self Assessment', color: 'bg-[#EC4899]', path: '/assessment' },
+  { id: 'resources', icon: BookOpen, label: 'Resources', color: 'bg-[#22C55E]', path: '/resources' },
+  { id: 'mhfa', icon: Shield, label: 'MHFA Training', color: 'bg-[#0EA5E9]', path: '/mhfa-training-lab' },
+  { id: 'stress-report', icon: FileBarChart, label: 'Stress report', color: 'bg-[#7C3AED]', path: '/stress-report' },
+  { id: 'chatbot', icon: MessageCircle, label: 'AI Support', color: 'bg-[#F97316]', path: '/chatbot' },
+  { id: 'booking', icon: Calendar, label: 'Book Counselor', color: 'bg-[#6366F1]', path: '/booking' },
+  { id: 'community', icon: Users, label: 'Peer Support', color: 'bg-[#A855F7]', path: '/peer-support' },
+];
+
+const instituteMenuItems = [
+  { id: 'institute', icon: BarChart3, label: 'Overview', color: 'bg-[#4F46E5]', path: '/institute' },
+];
+
 const Sidebar = ({ 
   sidebarOpen, 
   setSidebarOpen
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { logout, currentUser } = useAuth();
+  const { logout, userType } = useAuth();
   
-  const menuItems = [
-    { id: 'dashboard', icon: BarChart3, label: 'Dashboard', color: 'bg-[#4F46E5]', path: '/mainpage' },
-    { id: 'assessment', icon: Heart, label: 'Self Assessment', color: 'bg-[#EC4899]', path: '/assessment' },
-    { id: 'resources', icon: BookOpen, label: 'Resources', color: 'bg-[#22C55E]', path: '/resources' },
-    { id: 'mhfa', icon: Shield, label: 'MHFA Training', color: 'bg-[#0EA5E9]', path: '/mhfa-training-lab' },
-    { id: 'stress-report', icon: FileBarChart, label: 'Stress report', color: 'bg-[#7C3AED]', path: '/stress-report' },
-    { id: 'chatbot', icon: MessageCircle, label: 'AI Support', color: 'bg-[#F97316]', path: '/chatbot' },
-    { id: 'booking', icon: Calendar, label: 'Book Counselor', color: 'bg-[#6366F1]', path: '/booking' },
-    { id: 'community', icon: Users, label: 'Peer Support', color: 'bg-[#A855F7]', path: '/peer-support' },
-  ];
+  const menuItems = userType === 'institute' ? instituteMenuItems : studentMenuItems;
 
   const handleLogout = async () => {
     try {
@@ -67,7 +73,7 @@ const Sidebar = ({
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-[#111827]">Manas Veda</h1>
-                <p className="text-sm text-[#6B7280]">Manas Veda · student mental wellbeing</p>
+                <p className="text-sm text-[#6B7280]">Wellbeing</p>
               </div>
             </div>
             <button 

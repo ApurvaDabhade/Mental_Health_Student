@@ -60,7 +60,11 @@ const CounselorDashboard = () => {
         }
 
         const draft = JSON.parse(draftRaw);
-        const displayName = localStorage.getItem('devDisplayName') || 'Demo Counsellor';
+        const rawName = localStorage.getItem('devDisplayName');
+        const displayName =
+          rawName && !/^demo\s+counsell/i.test(String(rawName).trim())
+            ? rawName
+            : localStorage.getItem('devEmail')?.split('@')[0] || 'Counsellor';
         const email = localStorage.getItem('devEmail') || 'demo@manasveda.local';
 
         const slotsObj = {};
@@ -234,8 +238,9 @@ const CounselorDashboard = () => {
               <User className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-[#2e2f34]">Counselor Dashboard</h1>
-              <p className="text-base text-[#767272]">Welcome back, {counselorProfile.name}</p>
+              <h1 className="text-2xl font-bold text-[#2e2f34]">Counsellor dashboard</h1>
+              <p className="text-sm font-semibold text-[#3d9098]">Appointments</p>
+              <p className="text-base text-[#767272] mt-0.5">{counselorProfile.name}</p>
             </div>
           </div>
           <div className="flex items-center space-x-3">

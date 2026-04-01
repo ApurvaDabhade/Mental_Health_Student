@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { 
   Heart, 
   Play, 
@@ -25,6 +25,7 @@ import {
 import Sidebar from './Sidebar';
 
 const PsychoeducationalHub = () => {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -94,7 +95,8 @@ const PsychoeducationalHub = () => {
       thumbnail: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=400&auto=format&fit=crop',
       views: 1250,
       rating: 4.8,
-      tags: ['anxiety', 'mental health', 'students']
+      tags: ['anxiety', 'mental health', 'students'],
+      url: 'https://www.youtube.com/watch?v=ZToicYcHIOU'
     },
     {
       id: 2,
@@ -106,7 +108,8 @@ const PsychoeducationalHub = () => {
       thumbnail: 'https://images.unsplash.com/photo-1517673400267-0251440c45dc?q=80&w=400&auto=format&fit=crop',
       views: 890,
       rating: 4.6,
-      tags: ['stress', 'hindi', 'students']
+      tags: ['stress', 'hindi', 'students'],
+      url: 'https://www.youtube.com/watch?v=hnpQrMqDoqE'
     },
     {
       id: 3,
@@ -118,7 +121,8 @@ const PsychoeducationalHub = () => {
       thumbnail: 'https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?q=80&w=400&auto=format&fit=crop',
       views: 2100,
       rating: 4.9,
-      tags: ['meditation', 'mindfulness', 'relaxation']
+      tags: ['meditation', 'mindfulness', 'relaxation'],
+      url: 'https://www.youtube.com/watch?v=inpok4MKVLM'
     },
     {
       id: 4,
@@ -130,7 +134,8 @@ const PsychoeducationalHub = () => {
       thumbnail: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=400&auto=format&fit=crop',
       views: 650,
       rating: 4.7,
-      tags: ['anxiety', 'tamil', 'students']
+      tags: ['anxiety', 'tamil', 'students'],
+      url: 'https://www.youtube.com/watch?v=SEfs5TJZ6Nk'
     }
   ];
 
@@ -145,7 +150,8 @@ const PsychoeducationalHub = () => {
       thumbnail: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=400&auto=format&fit=crop',
       downloads: 3200,
       rating: 4.8,
-      tags: ['breathing', 'relaxation', 'stress relief']
+      tags: ['breathing', 'relaxation', 'stress relief'],
+      url: 'https://www.youtube.com/watch?v=acUZdGd_3Dg'
     },
     {
       id: 6,
@@ -157,7 +163,8 @@ const PsychoeducationalHub = () => {
       thumbnail: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=400&auto=format&fit=crop',
       downloads: 1800,
       rating: 4.6,
-      tags: ['meditation', 'hindi', 'peace']
+      tags: ['meditation', 'hindi', 'peace'],
+      url: 'https://www.youtube.com/watch?v=qzR62JJCMBQ'
     },
     {
       id: 7,
@@ -169,7 +176,8 @@ const PsychoeducationalHub = () => {
       thumbnail: 'https://images.unsplash.com/photo-1517673400267-0251440c45dc?q=80&w=400&auto=format&fit=crop',
       downloads: 4500,
       rating: 4.9,
-      tags: ['sleep', 'bedtime', 'relaxation']
+      tags: ['sleep', 'bedtime', 'relaxation'],
+      url: 'https://www.youtube.com/watch?v=aEqlQvczMJQ'
     },
     {
       id: 8,
@@ -181,7 +189,8 @@ const PsychoeducationalHub = () => {
       thumbnail: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=400&auto=format&fit=crop',
       downloads: 2800,
       rating: 4.7,
-      tags: ['focus', 'study', 'nature']
+      tags: ['focus', 'study', 'nature'],
+      url: 'https://www.youtube.com/watch?v=lFcSrYw-ARY'
     }
   ];
 
@@ -196,7 +205,8 @@ const PsychoeducationalHub = () => {
       readTime: '8 min',
       downloads: 5600,
       rating: 4.8,
-      tags: ['exam stress', 'study tips', 'academic']
+      tags: ['exam stress', 'study tips', 'academic'],
+      url: 'https://www.mind.org.uk/information-support/types-of-mental-health-problems/stress/'
     },
     {
       id: 10,
@@ -208,7 +218,8 @@ const PsychoeducationalHub = () => {
       readTime: '12 min',
       downloads: 3200,
       rating: 4.7,
-      tags: ['mental health', 'hindi', 'students']
+      tags: ['mental health', 'hindi', 'students'],
+      url: 'https://www.nimh.nih.gov/health/publications/men-and-depression'
     },
     {
       id: 11,
@@ -220,7 +231,8 @@ const PsychoeducationalHub = () => {
       readTime: '6 min',
       downloads: 4100,
       rating: 4.6,
-      tags: ['relationships', 'social skills', 'college']
+      tags: ['relationships', 'social skills', 'college'],
+      url: 'https://www.helpguide.org/articles/relationships-communication/relationship-help.htm'
     },
     {
       id: 12,
@@ -232,7 +244,8 @@ const PsychoeducationalHub = () => {
       readTime: '10 min',
       downloads: 1800,
       rating: 4.5,
-      tags: ['stress management', 'tamil', 'students']
+      tags: ['stress management', 'tamil', 'students'],
+      url: 'https://www.who.int/news-room/questions-and-answers/item/stress'
     }
   ];
 
@@ -390,7 +403,14 @@ const PsychoeducationalHub = () => {
               {filteredResources.map((resource) => {
                 const IconComponent = getResourceIcon(resource.category);
                 return (
-                  <div key={resource.id} className="bg-white rounded-xl p-6 border hover:shadow-lg transition-all duration-300 group cursor-pointer" style={{borderColor:'#c8ced1'}}>
+                  <a
+                    key={resource.id}
+                    href={resource.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="bg-white rounded-xl p-6 border hover:shadow-lg transition-all duration-300 group cursor-pointer block"
+                    style={{borderColor:'#c8ced1'}}
+                  >
                     {/* Thumbnail */}
                     <div className="relative mb-4">
                       <img
@@ -463,23 +483,23 @@ const PsychoeducationalHub = () => {
 
                       {/* Action Buttons */}
                       <div className="flex items-center justify-between pt-3 border-t" style={{borderColor:'#c8ced1'}}>
-                        <button className="flex items-center space-x-2 text-[#2dc8ca] hover:text-[#3d9098] transition-colors">
+                        <span className="flex items-center space-x-2 text-[#2dc8ca] hover:text-[#3d9098] transition-colors">
                           <Play className="w-4 h-4" />
                           <span className="text-sm font-medium">
                             {resource.category === 'guides' ? 'Read Guide' : 'Play'}
                           </span>
-                        </button>
+                        </span>
                         <div className="flex items-center space-x-2">
-                          <button className="p-2 hover:bg-[#eaf1f5] rounded-lg transition-colors">
+                          <span className="p-2 hover:bg-[#eaf1f5] rounded-lg transition-colors">
                             <Download className="w-4 h-4 text-[#767272]" />
-                          </button>
-                          <button className="p-2 hover:bg-[#eaf1f5] rounded-lg transition-colors">
+                          </span>
+                          <span className="p-2 hover:bg-[#eaf1f5] rounded-lg transition-colors">
                             <Share2 className="w-4 h-4 text-[#767272]" />
-                          </button>
+                          </span>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </a>
                 );
               })}
             </div>
@@ -500,11 +520,19 @@ const PsychoeducationalHub = () => {
                 <h3 className="text-2xl font-bold mb-3">Need Personalized Support?</h3>
                 <p className="text-[#fbecb3] text-lg mb-6">Connect with our AI counselor or book a session with a professional</p>
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <button className="bg-white text-[#2dc8ca] px-6 py-3 rounded-lg font-bold hover:bg-[#f2f7eb] transition-colors flex items-center justify-center">
+                  <button
+                    type="button"
+                    onClick={() => navigate('/chatbot')}
+                    className="bg-white text-[#2dc8ca] px-6 py-3 rounded-lg font-bold hover:bg-[#f2f7eb] transition-colors flex items-center justify-center"
+                  >
                     <Brain className="w-5 h-5 mr-2" />
                     Talk to AI Counselor
                   </button>
-                  <button className="border-2 border-white text-white px-6 py-3 rounded-lg font-bold hover:bg-white hover:text-[#2dc8ca] transition-colors flex items-center justify-center">
+                  <button
+                    type="button"
+                    onClick={() => navigate('/booking')}
+                    className="border-2 border-white text-white px-6 py-3 rounded-lg font-bold hover:bg-white hover:text-[#2dc8ca] transition-colors flex items-center justify-center"
+                  >
                     <Users className="w-5 h-5 mr-2" />
                     Book Counseling Session
                   </button>

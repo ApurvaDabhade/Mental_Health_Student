@@ -27,7 +27,7 @@ router.post('/start_session', async (req, res) => {
 
     // Generate welcome message
     const welcomeMessage = {
-      text: "Namaste! I'm Manas Veda, your emotional wellbeing companion. I'm here to listen and support you. How are you feeling today?",
+      text: "Hi — I'm Manas Veda. How are you feeling today?",
       sender: 'sahaay',
       timestamp: new Date(),
       interventionType: 'general',

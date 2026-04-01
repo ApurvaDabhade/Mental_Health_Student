@@ -51,6 +51,73 @@ export const getInterventionTypeText = (type) => {
   }
 };
 
+export function getLocalSupportReply(text) {
+  const lower = (text || '').toLowerCase().trim();
+  if (!lower) {
+    return "What's on your mind?";
+  }
+  if (
+    lower.includes('suicide') ||
+    lower.includes('kill myself') ||
+    lower.includes('kill me') ||
+    lower.includes('want to die') ||
+    lower.includes('end my life') ||
+    lower.includes('better off dead')
+  ) {
+    return (
+      "I'm really glad you reached out. What you're describing sounds serious. "
+      + "Please contact someone you trust right now, or call your local emergency number or a mental health helpline. "
+      + "You don't have to go through this alone."
+    );
+  }
+  if (
+    lower.includes('anx') ||
+    lower.includes('worried') ||
+    lower.includes('panic') ||
+    lower.includes('nervous') ||
+    lower.includes('scared')
+  ) {
+    return (
+      "That sounds stressful. Try naming 5 things you see, 4 you feel, 3 you hear, then slow breathing. What set this off?"
+    );
+  }
+  if (
+    lower.includes('sad') ||
+    lower.includes('depress') ||
+    lower.includes('hopeless') ||
+    lower.includes('empty') ||
+    lower.includes('cry') ||
+    lower.includes('lonely')
+  ) {
+    return (
+      "That sounds heavy. What small kindness could you offer yourself today—walk, warm drink, or music? Anyone you could reach out to?"
+    );
+  }
+  if (
+    lower.includes('stress') ||
+    lower.includes('overwhelm') ||
+    lower.includes('burnout') ||
+    lower.includes('exam') ||
+    lower.includes('deadline')
+  ) {
+    return (
+      "Feeling overwhelmed makes sense. What's the main pressure? One small next step can help."
+    );
+  }
+  if (lower.includes('sleep') || lower.includes('tired') || lower.includes('insomnia')) {
+    return (
+      "Sleep affects mood. Try dimming screens before bed. What's disrupting sleep most?"
+    );
+  }
+  if (lower.includes('thank') || lower.includes('thanks')) {
+    return "You're welcome. I'm here when you need.";
+  }
+  if (lower.includes('hi') || lower.includes('hello') || lower.includes('hey')) {
+    return "Hi — how are you feeling today?";
+  }
+  return "I'm listening. Say a bit more.";
+}
+
 // Check if message contains crisis keywords
 export const checkForCrisisKeywords = (text) => {
   const crisisKeywords = [

@@ -151,6 +151,7 @@ export default function AssessmentFlow() {
         message,
         next_step_url,
         assessmentType,
+        module: assessmentType,
         moduleLabel: mod.label,
       };
 

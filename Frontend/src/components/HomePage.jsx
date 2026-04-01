@@ -24,32 +24,32 @@ export default function Homepage() {
     {
       icon: <Brain className="w-8 h-8" />,
       title: "Self-Assessment Tools",
-      description: "Take PHQ-9 and GAD-7 assessments to understand your mental well-being with scientifically validated scoring."
+      description: "Screenings and questionnaires to understand how you're doing."
     },
     {
       icon: <MessageCircle className="w-8 h-8" />,
-      title: "DBT-Based AI Chatbot",
-      description: "Get 24/7 emotional support with our AI chatbot guided by Dialectical Behavior Therapy principles."
+      title: "AI Chat",
+      description: "Talk anytime — supportive, private chat."
     },
     {
       icon: <Calendar className="w-8 h-8" />,
       title: "Counsellor Booking",
-      description: "Browse and book appointments with verified counsellors for professional mental health support."
+      description: "Book sessions when you want professional support."
     },
     {
       icon: <Users className="w-8 h-8" />,
       title: "Peer Support Community",
-      description: "Share experiences anonymously and connect with others who understand your journey."
+      description: "Connect with others in a safe space."
     },
     {
       icon: <Globe className="w-8 h-8" />,
       title: "Multilingual Resources",
-      description: "Access curated mental health content in multiple languages for inclusive support."
+      description: "Articles and tools in more than one language."
     },
     {
       icon: <Activity className="w-8 h-8" />,
       title: "Wellness & Routine",
-      description: "Guided meditation, breathing exercises, and daily routines to support your mental well-being."
+      description: "Meditation, breathing, and daily habits."
     }
   ];
 
@@ -65,7 +65,7 @@ export default function Homepage() {
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-[#111827]">Manas Veda</h1>
-                <p className="text-xs" style={{color:'#6B7280'}}>Your mental wellbeing companion</p>
+                <p className="text-xs" style={{color:'#6B7280'}}>Wellbeing</p>
               </div>
             </div>
             

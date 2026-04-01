@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { Send, User, Bot, Loader2, Heart, Shield, Sparkles, MessageCircle, X, RotateCcw, AlertTriangle } from 'lucide-react';
 import useSahaayChat from '../hooks/useSahaayChat';
 import {
@@ -29,7 +29,6 @@ const WellnessChat = () => {
     isTyping,
     distressLevel,
     sessionReady,
-    error,
     sendMessage,
     addSystemMessage,
     clearChat
@@ -80,18 +79,6 @@ const WellnessChat = () => {
     setShowCrisisModal(true);
   };
 
-  // Show welcome message on first load
-  React.useEffect(() => {
-    // This is handled by our hook now
-  }, []);
-
-  // Show error message if any
-  React.useEffect(() => {
-    if (error) {
-      addSystemMessage(error);
-    }
-  }, [error, addSystemMessage]);
-
   return (
     <div className="flex flex-col h-screen bg-gray-50">
       {/* Header */}
@@ -102,7 +89,7 @@ const WellnessChat = () => {
           </div>
           <div>
             <h1 className="text-xl font-semibold">Manas Veda</h1>
-            <p className="text-sm opacity-80">Your emotional wellbeing companion</p>
+            <p className="text-sm opacity-80">AI chat</p>
           </div>
           <div className="ml-auto flex items-center space-x-2">
             <span className="text-sm bg-white/20 px-2 py-1 rounded-full">
@@ -116,7 +103,7 @@ const WellnessChat = () => {
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {!sessionReady && (
           <div className="flex items-center justify-center py-12 text-gray-500 text-sm">
-            Connecting to Manas Veda…
+            Connecting…
           </div>
         )}
         {messages.map((message) => (
@@ -148,7 +135,7 @@ const WellnessChat = () => {
                 <div className="mt-2 pt-2 border-t border-gray-100">
                   <span className="inline-flex items-center text-xs text-teal-600">
                     <Sparkles className="w-3 h-3 mr-1" />
-                    {message.interventionType === 'CBT' ? 'Cognitive Behavioral' : 'Dialectical Behavior'} Technique
+                    {message.interventionType === 'CBT' ? 'CBT' : 'DBT'} tip
                   </span>
                 </div>
               )}
@@ -161,7 +148,7 @@ const WellnessChat = () => {
             <div className="w-2 h-2 bg-teal-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
             <div className="w-2 h-2 bg-teal-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
             <div className="w-2 h-2 bg-teal-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
-            <span className="text-sm text-gray-500 ml-2">Assistant is thinking...</span>
+            <span className="text-sm text-gray-500 ml-2">Thinking…</span>
           </div>
         )}
 

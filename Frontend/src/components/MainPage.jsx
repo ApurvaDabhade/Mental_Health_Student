@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import Sidebar from './Sidebar';
 import { useAuth } from '../context/AuthContext';
+import { getLatestDailyCheckIn, getCheckInConcern } from '../utils/dailyCheckInStorage';
 
 const PAGE_BG = '#eef5f7';
 
@@ -122,7 +123,6 @@ function WellnessMetricCard({ label, value, suffix, color, icon: Icon, pct, spar
         {hint && <p className="text-[11px] text-[#9ca3af] mt-0.5">{hint}</p>}
         <div className="mt-2 flex items-end justify-between gap-2">
           <MiniSparkline color={color} points={sparkPoints} />
-          <span className="text-[10px] font-medium text-[#9ca3af] whitespace-nowrap">7-day trend</span>
         </div>
       </div>
     </div>
@@ -132,10 +132,10 @@ function WellnessMetricCard({ label, value, suffix, color, icon: Icon, pct, spar
 function riskAlertsFromProfile(p) {
   if (!p) return [];
   const a = [];
-  if (p.sleepHours != null && p.sleepHours < 6) a.push('Sleep under 6h — prioritize rest.');
-  if (p.stressLevel != null && p.stressLevel > 7) a.push('Stress score is high — try breathing or a short walk.');
-  if (p.screenTimeHours != null && p.screenTimeHours > 8) a.push('Screen time is elevated — add screen-free breaks.');
-  if (p.waterIntakeLiters != null && p.waterIntakeLiters < 2) a.push('Hydration may be low.');
+  if (p.sleepHours != null && p.sleepHours < 6) a.push('Try for a bit more sleep tonight.');
+  if (p.stressLevel != null && p.stressLevel > 7) a.push('Stress looks high — take a short break.');
+  if (p.screenTimeHours != null && p.screenTimeHours > 8) a.push('Consider a screen-free stretch.');
+  if (p.waterIntakeLiters != null && p.waterIntakeLiters < 2) a.push('Drink a glass of water when you can.');
   return a.slice(0, 4);
 }
 
@@ -145,7 +145,11 @@ const MainPage = () => {
   const { currentUser } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [checkInTick, setCheckInTick] = useState(0);
   const wellness = useMemo(() => loadWellnessLocal(), []);
+
+  const latestCheckIn = useMemo(() => getLatestDailyCheckIn(), [checkInTick]);
+  const checkInConcern = useMemo(() => getCheckInConcern(latestCheckIn), [latestCheckIn]);
 
   useEffect(() => {
     if (localStorage.getItem('manasVeda_onboarding_complete') !== 'true') {
@@ -156,6 +160,16 @@ const MainPage = () => {
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const bump = () => setCheckInTick((n) => n + 1);
+    window.addEventListener('sahayDailyCheckinsUpdated', bump);
+    window.addEventListener('focus', bump);
+    return () => {
+      window.removeEventListener('sahayDailyCheckinsUpdated', bump);
+      window.removeEventListener('focus', bump);
+    };
   }, []);
 
   const getGreeting = () => {
@@ -175,50 +189,41 @@ const MainPage = () => {
 
   const quickActions = [
     {
-      id: 'checkin',
-      title: 'Daily Check-in',
-      subtitle: 'How are you feeling today?',
-      icon: Smile,
-      bgColor: 'bg-[#889260]',
-      action: 'Start Check-in',
-      time: '2 minutes'
-    },
-    {
       id: 'chatbot',
       title: 'AI Companion',
-      subtitle: 'Chat with your wellness buddy',
+      subtitle: '24/7 chat',
       icon: Brain,
       bgColor: 'bg-[#cdbdd4]',
-      action: 'Start Chat',
-      time: 'Available 24/7'
+      action: 'Chat',
+      time: 'Now'
     },
     {
       id: 'booking',
       title: 'Book Session',
-      subtitle: 'Talk to a counselor',
+      subtitle: 'Counsellor',
       icon: Calendar,
       bgColor: 'bg-[#6366F1]',
-      action: 'Schedule',
-      time: 'Next: Tomorrow 2pm'
+      action: 'Book',
+      time: ''
     },
     {
       id: 'mhfa',
       title: 'MHFA Training Lab',
-      subtitle: 'Learn mental health first aid',
+      subtitle: 'First aid skills',
       icon: BookOpen,
       bgColor: 'bg-[#f99c5b]',
-      action: 'Start Learning',
+      action: 'Open',
       time: 'Self-paced',
       onClick: () => navigate('/mhfa-training-lab')
     },
     {
       id: 'stress-report',
-      title: 'Stress report dashboard',
-      subtitle: 'Screening scores, vitals view, and recommendations',
+      title: 'Stress report',
+      subtitle: 'Your scores & tips',
       icon: FileBarChart,
       bgColor: 'bg-[#7C3AED]',
-      action: 'Open report',
-      time: 'Personalized',
+      action: 'Open',
+      time: '',
     },
   ];
 
@@ -277,24 +282,24 @@ const MainPage = () => {
   const featuredResources = [
     {
       title: 'Exam Stress Management',
-      description: 'Evidence-based techniques for academic pressure',
-      readTime: '5 min read',
+      description: 'Handle academic pressure',
+      readTime: '5 min',
       bgColor: 'bg-[#eaf1f5]',
       iconColor: 'text-[#2dc8ca]',
       category: 'Study Skills'
     },
     {
       title: 'Sleep & Mental Health',
-      description: 'How quality sleep improves wellbeing',
-      readTime: '3 min read',
+      description: 'Sleep and mood',
+      readTime: '3 min',
       bgColor: 'bg-[#f2f7eb]',
       iconColor: 'text-[#889260]',
       category: 'Lifestyle'
     },
     {
       title: 'Building Resilience',
-      description: 'Develop skills to bounce back stronger',
-      readTime: '7 min read',
+      description: 'Bounce back stronger',
+      readTime: '7 min',
       bgColor: 'bg-[#fbecb3]',
       iconColor: 'text-[#f99c5b]',
       category: 'Mental Skills'
@@ -352,6 +357,67 @@ const MainPage = () => {
 
         {/* Main Content */}
         <main className="p-6 space-y-8">
+          <section
+            className="rounded-[24px] border bg-gradient-to-br from-white to-[#eef2ff] p-6 shadow-sm"
+            style={{ borderColor: '#c8ced1' }}
+          >
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+              <div className="flex items-start gap-4">
+                <div className="w-14 h-14 rounded-2xl bg-[#6366F1] flex items-center justify-center shrink-0">
+                  <Smile className="w-8 h-8 text-white" strokeWidth={2} />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-[#6366F1]">Daily check-in</p>
+                  <h3 className="text-2xl font-bold text-[#111827] mt-1">How are you feeling today?</h3>
+                  <p className="text-[#6b7280] mt-1 max-w-xl">
+                    {latestCheckIn
+                      ? `Last: ${new Date(latestCheckIn.date).toLocaleDateString()} · ${latestCheckIn.score?.percentage ?? '—'}%`
+                      : 'Quick mood and sleep check-in.'}
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => navigate('/checkin')}
+                className="shrink-0 px-8 py-3.5 rounded-xl bg-[#6366F1] text-white font-semibold hover:bg-[#4F46E5] transition-colors shadow-md"
+              >
+                {latestCheckIn ? 'Check in again' : 'Start daily check-in'}
+              </button>
+            </div>
+          </section>
+
+          {checkInConcern.needsSupport && (
+            <div className="rounded-[20px] border border-rose-200 bg-rose-50 p-5 text-rose-950">
+              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                <div className="flex gap-3">
+                  <MessageCircle className="w-6 h-6 shrink-0 text-rose-600 mt-0.5" />
+                  <div>
+                    <p className="font-semibold text-lg text-rose-900">Need support?</p>
+                    <p className="mt-1 text-sm text-rose-900/90">
+                      {checkInConcern.summary || 'Things look tough from your last check-in.'} Chat below or open your assessment.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    onClick={() => navigate('/chatbot?focus=low_mood')}
+                    className="px-4 py-2 rounded-lg bg-white border border-rose-200 text-rose-900 font-semibold text-sm hover:bg-rose-100"
+                  >
+                    AI chat
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => navigate('/assessment')}
+                    className="px-4 py-2 rounded-lg bg-rose-600 text-white font-semibold text-sm hover:bg-rose-700"
+                  >
+                    Self assessment
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
           <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {featuredResources.map((fr, i) => (
               <Link
@@ -363,7 +429,7 @@ const MainPage = () => {
                 <p className="text-xs font-semibold text-[#6b7280]">{fr.category}</p>
                 <h4 className="font-bold text-[#2e2f34] mt-1">{fr.title}</h4>
                 <p className="text-sm text-[#6b7280] mt-1">{fr.description}</p>
-                <p className="text-xs text-[#6366F1] mt-2 font-medium">{fr.readTime} · Open hub →</p>
+                <p className="text-xs text-[#6366F1] mt-2 font-medium">{fr.readTime} · Open →</p>
               </Link>
             ))}
           </section>
@@ -378,7 +444,7 @@ const MainPage = () => {
                 icon={Zap}
                 pct={pct10(wellness.stressLevel)}
                 sparkPoints={metricSparkPoints(wellness.stressLevel, 10, 1)}
-                hint="Self-report (1–10)"
+                hint="1–10"
               />
               <WellnessMetricCard
                 label="Mood"
@@ -388,7 +454,7 @@ const MainPage = () => {
                 icon={Smile}
                 pct={pct10(wellness.moodRating)}
                 sparkPoints={metricSparkPoints(wellness.moodRating, 10, 2)}
-                hint="Current mood snapshot"
+                hint="1–10"
               />
               <WellnessMetricCard
                 label="Sleep"
@@ -398,7 +464,7 @@ const MainPage = () => {
                 icon={Moon}
                 pct={pctSleepHours(wellness.sleepHours)}
                 sparkPoints={metricSparkPoints(wellness.sleepHours, 8, 3)}
-                hint="Target ~7–8 h"
+                hint="hours"
               />
               <WellnessMetricCard
                 label="Activity"
@@ -408,14 +474,14 @@ const MainPage = () => {
                 icon={Footprints}
                 pct={pctSteps(wellness.dailySteps ?? wellness.walkingSteps)}
                 sparkPoints={metricSparkPoints(wellness.dailySteps ?? wellness.walkingSteps, 10000, 4)}
-                hint="Vs ~10k step goal"
+                hint="steps"
               />
             </section>
           )}
 
           {riskAlertsFromProfile(wellness).length > 0 && (
             <div className="bg-amber-50 border border-amber-200 rounded-[20px] p-4 text-sm text-amber-950">
-              <p className="font-semibold mb-2">Wellness nudges</p>
+              <p className="font-semibold mb-2">Tips</p>
               <ul className="list-disc pl-5 space-y-1">
                 {riskAlertsFromProfile(wellness).map((r) => (
                   <li key={r}>{r}</li>
@@ -443,9 +509,13 @@ const MainPage = () => {
                     <div className={`w-10 h-10 ${action.bgColor} rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform`}>
                       <action.icon className="w-6 h-6 text-white" />
                     </div>
-                    <div className="text-right">
-                      <div className="text-[#8d949d] text-xs font-medium">{action.time}</div>
-                    </div>
+                    {action.time ? (
+                      <div className="text-right">
+                        <div className="text-[#8d949d] text-xs font-medium">{action.time}</div>
+                      </div>
+                    ) : (
+                      <div className="w-8" />
+                    )}
                   </div>
                   <h4 className="font-bold text-[#2e2f34] text-base mb-1">{action.title}</h4>
                   <p className="text-[#767272] text-sm mb-3">{action.subtitle}</p>
@@ -491,7 +561,7 @@ const MainPage = () => {
                         <span className="text-xs" style={{color:'#8d949d'}}>{a.readTime}</span>
                       </div>
                       <h4 className="font-semibold text-[#2e2f34]">{a.title}</h4>
-                      <p className="text-xs text-[#6366F1] mt-2 font-medium">Open in Resource Hub →</p>
+                      <p className="text-xs text-[#6366F1] mt-2 font-medium">Open →</p>
                     </div>
                   </Link>
                 ))}

@@ -1,10 +1,18 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import axios from "axios";
+import { getLocalSupportReply } from "../utils/chatUtils";
 
 const API_BASE =
   import.meta.env.VITE_API_BASE_URL != null && import.meta.env.VITE_API_BASE_URL !== ""
     ? `${String(import.meta.env.VITE_API_BASE_URL).replace(/\/$/, "")}/sahaay`
     : "/api/sahaay";
+
+const START_SESSION_TIMEOUT_MS = 10000;
+const HTTP_TIMEOUT_MS = 25000;
+
+function isLocalSessionId(sid) {
+  return sid != null && String(sid).startsWith("local_");
+}
 
 function getUserId() {
   const appId = localStorage.getItem("userId");
@@ -34,6 +42,7 @@ const useWellnessChat = () => {
   const api = axios.create({
     baseURL: API_BASE,
     withCredentials: true,
+    timeout: HTTP_TIMEOUT_MS,
     headers: { "Content-Type": "application/json" },
   });
 
@@ -72,14 +81,20 @@ const useWellnessChat = () => {
   }, []);
 
   const startSession = useCallback(async () => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), START_SESSION_TIMEOUT_MS);
     try {
       setError(null);
       setIsTyping(true);
 
-      const response = await api.post("/start_session", {
-        userId,
-        initialDistressScore: 1,
-      });
+      const response = await api.post(
+        "/start_session",
+        {
+          userId,
+          initialDistressScore: 1,
+        },
+        { signal: controller.signal },
+      );
 
       const sid = response.data.sessionId != null ? String(response.data.sessionId) : "";
       setSessionId(sid);
@@ -89,7 +104,7 @@ const useWellnessChat = () => {
       const welcomeText =
         response.data.message?.text ||
         response.data.welcomeMessage?.text ||
-        "Namaste! I'm Manas Veda, your emotional wellbeing companion. How are you feeling today?";
+        "Hi — I'm Manas Veda. How are you feeling today?";
 
       setMessages([
         {
@@ -113,7 +128,7 @@ const useWellnessChat = () => {
       setMessages([
         {
           id: Date.now(),
-          text: "Namaste! I'm Manas Veda — offline mode: connect the API (port 5000 + MongoDB) for full sessions. I can still offer brief supportive replies.",
+          text: "Hi — I'm Manas Veda. How are you feeling today?",
           sender: "bot",
           timestamp: new Date(),
         },
@@ -121,6 +136,8 @@ const useWellnessChat = () => {
       setSessionReady(true);
       setIsTyping(false);
       return localSessionId;
+    } finally {
+      clearTimeout(timeoutId);
     }
   }, [userId, addSystemMessage]);
 
@@ -163,6 +180,27 @@ const useWellnessChat = () => {
       setIsTyping(true);
       setError(null);
 
+      if (isLocalSessionId(sid)) {
+        const reply = getLocalSupportReply(text);
+        const t = text.toLowerCase();
+        if (/sad|depress|hopeless|anx|panic|stress|overwhelm|scared|hurt/i.test(t)) {
+          setDistressLevel((d) => Math.min(4, Math.max(2, d)));
+        }
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: Date.now() + 1,
+            text: reply,
+            sender: "bot",
+            timestamp: new Date(),
+            interventionType: "DBT",
+            type: "text",
+          },
+        ]);
+        setIsTyping(false);
+        return;
+      }
+
       try {
         const response = await api.post("/chat", {
           message: text,
@@ -195,20 +233,7 @@ const useWellnessChat = () => {
           sessionIdRef.current = ns;
         }
       } catch (err) {
-        const lower = text.toLowerCase();
-        let reply =
-          "I'm here with you. Want to tell me a bit more about what's going on?";
-        if (lower.includes("anx") || lower.includes("worried") || lower.includes("panic")) {
-          reply =
-            "That sounds really stressful. Try quick grounding: name 5 things you see, 4 you feel, 3 you hear, 2 you smell, 1 you taste.";
-        } else if (lower.includes("sad") || lower.includes("depress") || lower.includes("hopeless")) {
-          reply =
-            "I'm sorry you're feeling this way. What's one small thing that usually helps a little—music, a walk, or talking to someone?";
-        } else if (lower.includes("stress") || lower.includes("overwhelm") || lower.includes("burnout")) {
-          reply =
-            "It makes sense to feel overwhelmed. What's the biggest pressure right now, and what's one small next step for today?";
-        }
-
+        const reply = getLocalSupportReply(text);
         setMessages((prev) => [
           ...prev,
           {
